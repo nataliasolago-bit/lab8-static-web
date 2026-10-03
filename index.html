@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Lab 8 - Sistemas Operativos</title></head>
+<body>
+  <h1>Laboratorio 8: Static Web App</h1>
+  <p id="resultado">Cargando API...</p>
+  <script>
+    fetch('/api/hello')
+      .then(r => r.json())
+      .then(d => document.getElementById('resultado').textContent = d.mensaje)
+      .catch(() => document.getElementById('resultado').textContent = 'API no disponible (modo estático)');
+  </script>
+</body>
+</html>
