@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="app">
+<head>
+  <meta charset="UTF-8"><title>Lab 8 - MEAN</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-controller="LibrosCtrl">
+  <h1>Lab 8: Pila MEAN</h1>
+  <input ng-model="nuevo.titulo" placeholder="Título">
+  <input ng-model="nuevo.autor" placeholder="Autor">
+  <button ng-click="agregar()">Agregar</button>
+  <ul>
+    <li ng-repeat="l in libros">{{l.titulo}} - {{l.autor}} <button ng-click="borrar(l)">X</button></li>
+  </ul>
+  <script>
+    angular.module('app', []).controller('LibrosCtrl', function($scope, $http) {
+      $scope.nuevo = {};
+      function cargar() { $http.get('/api/libros').then(r => $scope.libros = r.data); }
+      $scope.agregar = function() { $http.post('/api/libros', $scope.nuevo).then(() => { $scope.nuevo = {}; cargar(); }); };
+      $scope.borrar = function(l) { $http.delete('/api/libros/' + l._id).then(cargar); };
+      cargar();
+    });
+  </script>
+</body>
+</html>
