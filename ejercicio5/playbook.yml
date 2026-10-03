@@ -1,0 +1,22 @@
+---
+- name: Configurar servidor web
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Instalar paquetes
+      ansible.builtin.apt:
+        name: [nginx, curl, git, htop]
+        state: present
+        update_cache: true
+
+    - name: Publicar página de inicio
+      ansible.builtin.copy:
+        content: "<h1>Configurado con Ansible</h1>\n"
+        dest: /var/www/html/index.html
+
+    - name: Asegurar que nginx está corriendo
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        use: service
